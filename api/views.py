@@ -8,7 +8,7 @@ from .serializers import *
 from .models import *
 
 @api_view(['GET','POST','PUT','DELETE'])
-def Hero(request):
+def hero_view(request):
     if request.method == 'GET':
         hero = Hero.objects.all()
         serializer = HeroSerializer(hero, many=True)
@@ -20,19 +20,22 @@ def Hero(request):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
     elif request.method == 'PUT':
-        serializer = HeroSerializer(data=request.data)
+        hero = Hero.objects.first()
+        serializer = HeroSerializer(hero, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
     elif request.method == 'DELETE':
+        hero = Hero.objects.first()
         hero.delete()
         return Response(status=204)
+
 @api_view(['GET','POST','PUT','DELETE'])
-def About(request):
+def about_view(request):
     if request.method == 'GET':
-        about = About.objects.all()
-        serializer = AboutSerializer(about, many=True)
+        about = About.objects.first()
+        serializer = AboutSerializer(about)  # Removed many=True since we're getting one object
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = AboutSerializer(data=request.data)
@@ -41,17 +44,19 @@ def About(request):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
     elif request.method == 'PUT':
-        serializer = AboutSerializer(data=request.data)
+        about = About.objects.first()
+        serializer = AboutSerializer(about, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
     elif request.method == 'DELETE':
+        about = About.objects.first()
         about.delete()
         return Response(status=204)
     
 @api_view(['GET','POST','PUT','DELETE'])
-def Projects(request):
+def projects_view(request):
     if request.method == 'GET':
         projects = Projects.objects.all()
         serializer = ProjectsSerializer(projects, many=True)
@@ -63,17 +68,19 @@ def Projects(request):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)  
     elif request.method == 'PUT':
-        serializer = ProjectsSerializer(data=request.data)
+        project = Projects.objects.get(id=request.data.get('id'))
+        serializer = ProjectsSerializer(project, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
     elif request.method == 'DELETE':
-        projects.delete()
+        project = Projects.objects.get(id=request.data.get('id'))
+        project.delete()
         return Response(status=204) 
 
 @api_view(['GET','POST','PUT','DELETE'])
-def Courses(request):
+def courses_view(request):
     if request.method == 'GET':
         courses = Courses.objects.all()
         serializer = CoursesSerializer(courses, many=True)
@@ -85,21 +92,22 @@ def Courses(request):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)  
     elif request.method == 'PUT':
-        serializer = CoursesSerializer(data=request.data)
+        course = Courses.objects.get(id=request.data.get('id'))
+        serializer = CoursesSerializer(course, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
     elif request.method == 'DELETE':
-        courses.delete()
+        course = Courses.objects.get(id=request.data.get('id'))
+        course.delete()
         return Response(status=204)     
-    
 
 @api_view(['GET','POST','PUT','DELETE'])
-def MyContact(request):
+def my_contact_view(request):
     if request.method == 'GET':
-        myContact = MyContact.objects.all()
-        serializer = MyContactSerializer(myContact, many=True)
+        my_contact = MyContact.objects.all()
+        serializer = MyContactSerializer(my_contact, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = MyContactSerializer(data=request.data)
@@ -108,21 +116,22 @@ def MyContact(request):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)  
     elif request.method == 'PUT':
-        serializer = MyContactSerializer(data=request.data)
+        contact = MyContact.objects.get(id=request.data.get('id'))
+        serializer = MyContactSerializer(contact, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
     elif request.method == 'DELETE':
-        myContact.delete()
+        contact = MyContact.objects.get(id=request.data.get('id'))
+        contact.delete()
         return Response(status=204) 
 
-
 @api_view(['GET','POST','PUT','DELETE'])
-def ConnectMe(request):
+def connect_me_view(request):
     if request.method == 'GET':
-        connectMe = ConnectMe.objects.all()
-        serializer = ConnectMeSerializer(connectMe, many=True)
+        connect_me = ConnectMe.objects.all()
+        serializer = ConnectMeSerializer(connect_me, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = ConnectMeSerializer(data=request.data)
@@ -131,13 +140,15 @@ def ConnectMe(request):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
     elif request.method == 'PUT':
-        serializer = ConnectMeSerializer(data=request.data)
+        connect = ConnectMe.objects.get(id=request.data.get('id'))
+        serializer = ConnectMeSerializer(connect, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
     elif request.method == 'DELETE':
-        connectMe.delete()
+        connect = ConnectMe.objects.get(id=request.data.get('id'))
+        connect.delete()
         return Response(status=204)
 
 

@@ -1,13 +1,11 @@
-
 from django.urls import path
-from .views import *
+from . import views
 
 urlpatterns = [
-    path('hero/',Hero),
-    path('about/', About),
-    path('projects/', Projects),
-    path('courses/', Courses),
-    path('mycontact/', MyContact),
-    path('connectme/', ConnectMe),
-
+    path('hero/', views.hero_view, name='hero'),
+    path('about/', views.about_view, name='about'),
+    path('projects/', views.projects_view, name='projects'),
+    path('courses/', views.courses_view, name='courses'),
+    path('my-contact/', views.my_contact_view, name='my-contact'),
+    path('connect-me/', views.connect_me_view, name='connect-me'),
 ]

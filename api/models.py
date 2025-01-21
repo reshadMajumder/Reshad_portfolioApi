@@ -12,7 +12,7 @@ class Hero(models.Model):
 
 
     def __str__(self):
-        return self.name
+        return self.Title
 
 class MyImages(models.Model):
     image = models.ImageField(upload_to='images')
@@ -83,6 +83,7 @@ class Courses(models.Model):
     description = models.TextField()
     price = models.IntegerField()
     duration = models.IntegerField()
+    active = models.BooleanField(default=False)
     class Meta:
         verbose_name = 'Courses'
         verbose_name_plural = 'Courses'
